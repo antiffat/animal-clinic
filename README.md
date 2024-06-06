@@ -22,6 +22,67 @@ Before you begin, ensure you have the following installed:
    ```sh
    git clone https://github.com/antiffat/animal-clinic.git
    cd animal-clinic
-  ```
+   ```
 
-2. **dhhd**: 
+2. **Navigate to the Project Directory**:
+   ```sh
+   cd src/AnimalClinic
+   ```
+
+3. **Restore Dependencies**:
+   ```sh
+   dotnet restore
+   ```
+
+### Running the Project
+
+1. **Update Database**:
+   - Ensure your SQL Server is running.
+   - Update the database with migrations.
+     ```sh
+     dotnet ef database update
+     ```
+
+2. **Run the Application**:
+   ```sh
+   dotnet run
+   ```
+
+3. **Access the Application**:
+   - Open your browser and navigate to `https://localhost:5001` (or the port specified in the launch settings).
+
+## Project Structure
+
+Here is a brief overview of the project's structure:
+
+```
+animal-clinic/
+├── src/
+│   └── AnimalClinic/
+│       ├── Controllers/        # API Controllers
+│       ├── DTOs/               # Data Transfer Objects
+│       ├── Helpers/            # Helper Classes
+│       ├── Migrations/         # Entity Framework Migrations
+│       ├── Models/             # Entity Models
+│       ├── Properties/         # Project Properties
+│       ├── appsettings.json    # Application Settings
+│       ├── Program.cs          # Main Program
+│       ├── AnimalClinic.csproj # Project File
+│       └── ...                 # Other files and folders
+├── tests/
+│   └── SolutionName.UnitTests/ # Unit Tests
+├── .gitignore
+├── AnimalClinic.sln            # Solution File
+└── README.md                   # Project Documentation
+```
+
+## Dependencies
+
+The project uses the following dependencies:
+
+- **ASP.NET Core**: For building the web API.
+- **Entity Framework Core**: For database interactions.
+- **Swashbuckle.AspNetCore**: For integrating Swagger for API documentation.
+- **Newtonsoft.Json**: For JSON serialization and deserialization.
+- **Microsoft.Identity.Client**: For authentication.
+- **Humanizer**: For formatting dates, times, and numbers.
