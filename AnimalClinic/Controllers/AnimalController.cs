@@ -1,7 +1,6 @@
 using AnimalClinic.DTOs;
 using AnimalClinic.Helpers;
 using AnimalClinic.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +17,29 @@ public class AnimalController : ControllerBase
         _context = context;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Animal>>> GetAllAnimals([FromQuery] string queryBy = "Name")
+    {
+        IQueryable<Animal> query = _context.Animals.Include(a => a.AnimalType);
+
+        query = queryBy switch
+        {
+            "Description" => query.OrderBy(a => a.Description), _ => query.OrderBy(a => a.Name)
+        };
+
+        var animals = await query.ToListAsync();
+
+        var animalDtos = animals.Select(animal => new AnimalDto
+        {
+            Id = animal.Id,
+            Name = animal.Name,
+            Description = animal.Description,
+            AnimalType = animal.AnimalType.Name
+        }).ToList();
+
+        return Ok(animalDtos);
+    }
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<AnimalDto>> GetAnimal(int id)
     {

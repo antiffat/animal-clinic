@@ -40,16 +40,19 @@ public class AnimalClinicContext : DbContext
         modelBuilder.Entity<Animal>()
             .Property(a => a.Name)
             .IsRequired()
-            .HasMaxLength(100);
+            .HasMaxLength(100)
+            .IsConcurrencyToken();
 
         modelBuilder.Entity<Animal>()
             .Property(a => a.Description)
-            .HasMaxLength(2000);
+            .HasMaxLength(2000)
+            .IsConcurrencyToken();
 
         modelBuilder.Entity<AnimalTypes>()
             .Property(at => at.Name)
             .IsRequired()
-            .HasMaxLength(150);
+            .HasMaxLength(150)
+            .IsConcurrencyToken();
         
         modelBuilder.Entity<AnimalTypes>().HasData(
             new AnimalTypes { Id = 1, Name = "Dog" },
@@ -60,17 +63,20 @@ public class AnimalClinicContext : DbContext
         modelBuilder.Entity<Employee>()
             .Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(200)
+            .IsConcurrencyToken();
 
         modelBuilder.Entity<Employee>()
             .Property(e => e.PhoneNumber)
             .IsRequired()
-            .HasMaxLength(20);
+            .HasMaxLength(20)
+            .IsConcurrencyToken();
 
         modelBuilder.Entity<Employee>()
             .Property(e => e.Email)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(200)
+            .IsConcurrencyToken();
 
         modelBuilder.Entity<Visit>()
             .Property(v => v.Date)
