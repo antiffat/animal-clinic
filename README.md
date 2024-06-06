@@ -69,8 +69,6 @@ animal-clinic/
 │       ├── Program.cs          # Main Program
 │       ├── AnimalClinic.csproj # Project File
 │       └── ...                 # Other files and folders
-├── tests/
-│   └── SolutionName.UnitTests/ # Unit Tests
 ├── .gitignore
 ├── AnimalClinic.sln            # Solution File
 └── README.md                   # Project Documentation
