@@ -1,4 +1,3 @@
-using System.Collections;
 using AnimalClinic.DTOs;
 using AnimalClinic.Helpers;
 using AnimalClinic.Models;
@@ -92,5 +91,54 @@ public class VisitController : ControllerBase
         };
 
         return CreatedAtAction(nameof(GetVisit), new { id = visit.Id }, visitDetailsDto);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateVisit(int id, UpdateVisitDto updateVisitDto)
+    {
+        var visit = await _context.Visits.FindAsync(id);
+
+        if (visit == null)
+        {
+            return NotFound();
+        }
+
+        visit.Date = updateVisitDto.Date;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_context.Visits.Any(v => v.Id == id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Conflict(
+                    "Conflict: The record you attempted to edit was modified by another user after you got the " +
+                    "original value");
+            }
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteVisit(int id)
+    {
+        var visit = await _context.Visits.FindAsync(id);
+
+        if (visit == null)
+        {
+            return NotFound();
+        }
+
+        _context.Visits.Remove(visit);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }
