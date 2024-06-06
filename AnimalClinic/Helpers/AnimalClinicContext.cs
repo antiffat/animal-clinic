@@ -94,5 +94,15 @@ public class AnimalClinicContext : DbContext
         modelBuilder.Entity<Employee>()
             .HasIndex(e => new { e.PhoneNumber, e.Email })
             .IsUnique();
+        
+        modelBuilder.Entity<Employee>().HasData(
+            new Employee { Id = 1, Name = "John Doe", PhoneNumber = "1234567890", Email = "john.doe@example.com" },
+            new Employee { Id = 2, Name = "Jane Smith", PhoneNumber = "0987654321", Email = "jane.smith@example.com" }
+        );
+        
+        modelBuilder.Entity<Animal>().HasData(
+            new Animal { Id = 5, Name = "Buddy", Description = "A friendly dog", AnimalTypesId = 1 },
+            new Animal { Id = 6, Name = "Mittens", Description = "A curious cat", AnimalTypesId = 2 }
+        );
     }
 }

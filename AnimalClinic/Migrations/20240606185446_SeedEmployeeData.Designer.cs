@@ -4,6 +4,7 @@ using AnimalClinic.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnimalClinic.Migrations
 {
     [DbContext(typeof(AnimalClinicContext))]
-    partial class AnimalClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20240606185446_SeedEmployeeData")]
+    partial class SeedEmployeeData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,22 +53,6 @@ namespace AnimalClinic.Migrations
                     b.HasIndex("AnimalTypesId");
 
                     b.ToTable("Animals");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 5,
-                            AnimalTypesId = 1,
-                            Description = "A friendly dog",
-                            Name = "Buddy"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AnimalTypesId = 2,
-                            Description = "A curious cat",
-                            Name = "Mittens"
-                        });
                 });
 
             modelBuilder.Entity("AnimalClinic.Models.AnimalTypes", b =>
@@ -88,23 +75,6 @@ namespace AnimalClinic.Migrations
                         .IsUnique();
 
                     b.ToTable("AnimalTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Dog"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Cat"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Bird"
-                        });
                 });
 
             modelBuilder.Entity("AnimalClinic.Models.Employee", b =>
