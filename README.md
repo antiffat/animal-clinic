@@ -49,7 +49,7 @@ Before you begin, ensure you have the following installed:
    ```
 
 3. **Access the Application**:
-   - Open your browser and navigate to `https://localhost:5001` (or the port specified in the launch settings).
+   - Open your browser and navigate to `https://localhost:5237` (or the port specified in the launch settings).
 
 ## Project Structure
 
