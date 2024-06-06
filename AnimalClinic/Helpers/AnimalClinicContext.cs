@@ -23,13 +23,13 @@ public class AnimalClinicContext : DbContext
             .HasOne(a => a.AnimalType)
             .WithMany(at => at.Animals)
             .HasForeignKey(a => a.AnimalTypesId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade); // if an animal type is deleted, all Animal entities that reference to this AnimalType will also be deleted.
 
         modelBuilder.Entity<Visit>()
             .HasOne(v => v.Employee)
             .WithMany(e => e.Visits)
             .HasForeignKey(v => v.EmployeeId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict); // an Employee cannot be deleted if there are any Visit entities that reference this Employee
 
         modelBuilder.Entity<Visit>()
             .HasOne(v => v.Animal)
@@ -41,7 +41,12 @@ public class AnimalClinicContext : DbContext
             .Property(a => a.Name)
             .IsRequired()
             .HasMaxLength(100)
-            .IsConcurrencyToken();
+            .IsConcurrencyToken(); // Concurrency tokens helps to manage concurrent access to data and prevent conflicts
+        // when multiple users attempt to update the same data simultaneously. Concurrency token value could be a
+        // timestamp or a version number. 
+        // When you try to update a record with a concurrency token, the system checks if the token in your update matches
+        // the token in the database. If not, it means someone else has changed the record since you last read it,
+        // causing a conflict.
 
         modelBuilder.Entity<Animal>()
             .Property(a => a.Description)

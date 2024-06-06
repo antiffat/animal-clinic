@@ -111,11 +111,36 @@ public class AnimalController : ControllerBase
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException) when (!_context.Animals.Any(e => e.Id == id))
+        catch (DbUpdateConcurrencyException)
         {
-            return NotFound(); // HTTP 404
+            if (!_context.Animals.Any(a => a.Id == id))
+            {
+                return NotFound(); // HTTP 404
+            }
+            else
+            {
+                return Conflict(
+                    "Conflict: The record you attempted to edit was modified by another user after you got the " +
+                    "original value");
+            }
         }
 
         return NoContent(); // HTTP 204
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAnimal(int id)
+    {
+        var animal = await _context.Animals.FindAsync(id);
+
+        if (animal == null)
+        {
+            return NotFound();
+        }
+
+        _context.Animals.Remove(animal);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }
