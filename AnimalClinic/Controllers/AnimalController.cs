@@ -93,4 +93,29 @@ public class AnimalController : ControllerBase
         
         return CreatedAtAction(nameof(GetAnimal), new { id = animal.Id }, animalDto);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAnimal(int id, UpdateAnimalDto updateAnimalDto)
+    {
+        var animal = await _context.Animals.FindAsync(id);
+
+        if (animal == null)
+        {
+            return NotFound(); // HTTP 404
+        }
+
+        animal.Name = updateAnimalDto.Name;
+        animal.Description = updateAnimalDto.Description;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException) when (!_context.Animals.Any(e => e.Id == id))
+        {
+            return NotFound(); // HTTP 404
+        }
+
+        return NoContent(); // HTTP 204
+    }
 }
