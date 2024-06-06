@@ -16,6 +16,9 @@ public class AnimalClinicContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Animal>()
             .HasOne(a => a.AnimalType)
             .WithMany(at => at.Animals)
@@ -47,6 +50,12 @@ public class AnimalClinicContext : DbContext
             .Property(at => at.Name)
             .IsRequired()
             .HasMaxLength(150);
+        
+        modelBuilder.Entity<AnimalTypes>().HasData(
+            new AnimalTypes { Id = 1, Name = "Dog" },
+            new AnimalTypes { Id = 2, Name = "Cat" },
+            new AnimalTypes { Id = 3, Name = "Bird" }
+        );
 
         modelBuilder.Entity<Employee>()
             .Property(e => e.Name)
