@@ -18,9 +18,10 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Animal>>> GetAllAnimals([FromQuery] string queryBy = "Name")
+    public async Task<ActionResult<IEnumerable<AnimalDto>>> GetAllAnimals([FromQuery] string queryBy = "Name")
     {
-        IQueryable<Animal> query = _context.Animals.Include(a => a.AnimalType);
+        IQueryable<Animal> query = _context.Animals.Include(a => a.AnimalType); // using Include()
+        // gives us option to prevent lazy loading. So related AnimalType entities will be loaded at the same time as Animal entities.
 
         query = queryBy switch
         {
