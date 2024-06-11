@@ -18,6 +18,22 @@ public class AnimalClinicContext : DbContext
     {
         
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Animal>()
+            .Property(a => a.RowVersion)
+            .IsRowVersion();
+        
+        modelBuilder.Entity<AnimalTypes>()
+            .Property(at => at.RowVersion)
+            .IsRowVersion();
+        
+        modelBuilder.Entity<Visit>()
+            .Property(v => v.RowVersion)
+            .IsRowVersion();
+        
+        modelBuilder.Entity<Employee>()
+            .Property(e => e.RowVersion)
+            .IsRowVersion();
         
         modelBuilder.Entity<Animal>()
             .HasOne(a => a.AnimalType)

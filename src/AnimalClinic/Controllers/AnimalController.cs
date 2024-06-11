@@ -67,6 +67,11 @@ public class AnimalController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<AnimalDto>> CreateAnimal(CreateAnimalDto createAnimalDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         var animalType = await _context.AnimalTypes.FirstOrDefaultAsync(at => at.Name == createAnimalDto.AnimalType);
 
         if (animalType == null)
@@ -98,6 +103,11 @@ public class AnimalController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAnimal(int id, UpdateAnimalDto updateAnimalDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         var animal = await _context.Animals.FindAsync(id);
 
         if (animal == null)

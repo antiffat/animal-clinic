@@ -18,4 +18,7 @@ public class Animal
     public AnimalTypes AnimalType { get; set; }
     
     public ICollection<Visit> Visits { get; set; }
+    
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 }
