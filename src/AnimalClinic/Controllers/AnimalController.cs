@@ -122,18 +122,28 @@ public class AnimalController : ControllerBase
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
-            if (!_context.Animals.Any(a => a.Id == id))
+            var entry = ex.Entries.Single();
+            var databaseEntry = entry.GetDatabaseValues();
+
+            if (databaseEntry == null)
             {
-                return NotFound(); // HTTP 404
+                if (!_context.Animals.Any(a => a.Id == id))
+                {
+                    return NotFound(); // HTTP 404
+                }
             }
-            else
-            {
-                return Conflict(
-                    "Conflict: The record you attempted to edit was modified by another user after you got the " +
-                    "original value");
-            }
+            
+            var databaseValues = (Animal)databaseEntry.ToObject();
+            
+            ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified " +
+                "by another user after you got the original value. The edit operation was cancelled and current " +
+                "values in the database have been displayed. Try again to edit the new version of the record.");
+            
+            ModelState.AddModelError("DatabaseValues", databaseValues.ToString());
+
+            return Conflict(ModelState);
         }
 
         return NoContent(); // HTTP 204

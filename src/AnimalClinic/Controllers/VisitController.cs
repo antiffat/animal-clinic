@@ -96,6 +96,11 @@ public class VisitController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVisit(int id, UpdateVisitDto updateVisitDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         var visit = await _context.Visits.FindAsync(id);
 
         if (visit == null)
@@ -109,18 +114,25 @@ public class VisitController : ControllerBase
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
-            if (!_context.Visits.Any(v => v.Id == id))
+            var entry = ex.Entries.Single();
+            var databaseEntry = entry.GetDatabaseValues();
+
+            if (databaseEntry == null && !_context.Visits.Any(v => v.Id == id))
             {
                 return NotFound();
             }
-            else
-            {
-                return Conflict(
-                    "Conflict: The record you attempted to edit was modified by another user after you got the " +
-                    "original value");
-            }
+
+            var databaseValues = (Visit)databaseEntry.ToObject();
+                
+            ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified " +
+                                                   "by another user after you got the original value. The edit operation was cancelled and current " +
+                                                   "values in the database have been displayed. Try again to edit the new version of the record.");
+                
+            ModelState.AddModelError("DatabaseValues", databaseValues.ToString());
+
+            return Conflict(ModelState);
         }
 
         return NoContent();
