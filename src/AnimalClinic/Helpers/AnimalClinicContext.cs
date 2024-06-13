@@ -1,4 +1,5 @@
 using AnimalClinic.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnimalClinic.Helpers;
@@ -121,5 +122,23 @@ public class AnimalClinicContext : DbContext
             new Animal { Id = 5, Name = "Buddy", Description = "A friendly dog", AnimalTypesId = 1 },
             new Animal { Id = 6, Name = "Mittens", Description = "A curious cat", AnimalTypesId = 2 }
         );
+        
+        var passwordHasher = new PasswordHasher<User>();
+
+        var user1 = new User
+        {
+            Id = 1,
+            Username = "testuser1",
+            PasswordHash = passwordHasher.HashPassword(null, "password1")
+        };
+
+        var user2 = new User
+        {
+            Id = 2,
+            Username = "testuser2",
+            PasswordHash = passwordHasher.HashPassword(null, "password2")
+        };
+
+        modelBuilder.Entity<User>().HasData(user1, user2);
     }
 }
