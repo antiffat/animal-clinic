@@ -66,6 +66,19 @@ public class UserService : IUserService
 
         return (true, accessToken, refreshToken);
     }
+    
+    public async Task<(bool IsSuccess, string AccessToken)> RefreshTokenAsync(RefreshTokenDto refreshTokenDto)
+    {
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken == refreshTokenDto.RefreshToken);
+
+        if (user == null)
+        {
+            return (false, null);
+        }
+
+        var newAccessToken = GenerateAccessToken(user);
+        return (true, newAccessToken);
+    }
 
     private string GenerateAccessToken(User user)
     {
