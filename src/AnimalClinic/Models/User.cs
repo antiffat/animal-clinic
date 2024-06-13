@@ -13,4 +13,6 @@ public class User
     [Required]
     [MaxLength(100)]
     public string PasswordHash { get; set; }
+    
+    public string? RefreshToken { get; set; }
 }
