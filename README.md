@@ -1,8 +1,9 @@
+
 # Animal Clinic Management System
 
 ## Project Description
 
-**Animal Clinic Management System** is a web application designed to manage the operations of an animal clinic. The system allows the clinic staff to manage animals, employees, and visits efficiently.
+**Animal Clinic Management System** is a web application designed to manage the operations of an animal clinic. The system allows the clinic staff to manage animals, employees, users, and visits efficiently. The application also includes authentication and role-based authorization to secure various endpoints.
 
 ## Getting Started
 
