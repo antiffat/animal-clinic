@@ -13,6 +13,7 @@ public class AnimalClinicContext : DbContext
     public DbSet<AnimalTypes> AnimalTypes { get; set; }
     public DbSet<Visit> Visits { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
