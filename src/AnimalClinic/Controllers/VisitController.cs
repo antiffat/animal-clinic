@@ -132,9 +132,9 @@ public class VisitController : ControllerBase
             var databaseValues = (Visit)databaseEntry.ToObject();
                 
             ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified " +
-                                                   "by another user after you got the original value. The edit operation was cancelled and current " +
-                                                   "values in the database have been displayed. Try again to edit the new version of the record.");
-                
+               "by another user after you got the original value. The edit operation was cancelled and current " +
+               "values in the database have been displayed. Try again to edit the new version of the record.");
+
             ModelState.AddModelError("DatabaseValues", databaseValues.ToString());
 
             return Conflict(ModelState);
