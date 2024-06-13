@@ -1,6 +1,7 @@
 using AnimalClinic.DTOs;
 using AnimalClinic.Helpers;
 using AnimalClinic.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<AnimalDto>>> GetAllAnimals([FromQuery] string queryBy = "Name")
     {
         IQueryable<Animal> query = _context.Animals.Include(a => a.AnimalType); // using Include()
@@ -42,6 +44,7 @@ public class AnimalController : ControllerBase
     }
     
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<AnimalDto>> GetAnimal(int id)
     {
         var animal = await _context.Animals.Include(a => a.AnimalType)
@@ -65,6 +68,7 @@ public class AnimalController : ControllerBase
     
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<AnimalDto>> CreateAnimal(CreateAnimalDto createAnimalDto)
     {
         if (!ModelState.IsValid)
@@ -101,6 +105,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> UpdateAnimal(int id, UpdateAnimalDto updateAnimalDto)
     {
         if (!ModelState.IsValid)
@@ -150,6 +155,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteAnimal(int id)
     {
         var animal = await _context.Animals.FindAsync(id);

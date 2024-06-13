@@ -1,6 +1,7 @@
 using AnimalClinic.DTOs;
 using AnimalClinic.Helpers;
 using AnimalClinic.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ public class VisitController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<VisitDto>>> GetAllVisits()
     {
         var visits = await _context.Visits
@@ -38,6 +40,7 @@ public class VisitController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<VisitDetailsDto>> GetVisit(int id)
     {
         var visit = await _context.Visits
@@ -62,6 +65,7 @@ public class VisitController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<VisitDetailsDto>> CreateVisit(CreateVisitDto createVisitDto)
     {
         var employee = await _context.Employees.FindAsync(createVisitDto.EmployeeId);
@@ -94,6 +98,7 @@ public class VisitController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> UpdateVisit(int id, UpdateVisitDto updateVisitDto)
     {
         if (!ModelState.IsValid)
@@ -139,6 +144,7 @@ public class VisitController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteVisit(int id)
     {
         var visit = await _context.Visits.FindAsync(id);

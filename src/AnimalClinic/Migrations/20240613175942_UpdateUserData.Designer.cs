@@ -4,6 +4,7 @@ using AnimalClinic.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnimalClinic.Migrations
 {
     [DbContext(typeof(AnimalClinicContext))]
-    partial class AnimalClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20240613175942_UpdateUserData")]
+    partial class UpdateUserData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,10 +193,9 @@ namespace AnimalClinic.Migrations
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Roles")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -208,15 +210,15 @@ namespace AnimalClinic.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBwWrGNGragW5/7dhSH+nYaOPGhD0cN5y2XNVHcY98ybQxqKLjTtGpuE3dcPB6BnFg==",
-                            Role = "Admin",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA/0oRZosP58B3OIIMkurlPzFegi4LHisnAqsLc63zKGhR5rjnS3hUhoqPmZICVqwg==",
+                            Roles = "Admin",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "AQAAAAIAAYagAAAAEFm045cyyxD8Esz6ESkuwVMv6I+tVVmiuzszqbEWCAqdMfzDjMqFNqhKXIvM5/aYdw==",
-                            Role = "User",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJpyFfNDeC9j+v3RB/YCJuzgt8nrJ0qUnoKQvfsme7b4FpGKsKu6xUDJdK1hwJpysg==",
+                            Roles = "User",
                             Username = "testuser"
                         });
                 });

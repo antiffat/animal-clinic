@@ -130,7 +130,7 @@ public class AnimalClinicContext : DbContext
             Id = 1,
             Username = "admin",
             PasswordHash = passwordHasher.HashPassword(null, "adminpassword"),
-            Roles = "Admin"
+            Role = "Admin"
         };
 
         var regularUser = new User
@@ -138,7 +138,7 @@ public class AnimalClinicContext : DbContext
             Id = 2,
             Username = "testuser",
             PasswordHash = passwordHasher.HashPassword(null, "password"),
-            Roles = "User"
+            Role = "User"
         };
 
         modelBuilder.Entity<User>().HasData(adminUser, regularUser);
