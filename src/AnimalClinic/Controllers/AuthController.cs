@@ -31,4 +31,21 @@ public class AuthController : ControllerBase
 
         return Ok("User registered successfully!");
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var (IsSuccess, AccessToken, RefreshToken) = await _userService.LoginUserAsync(loginUserDto);
+        if (!IsSuccess)
+        {
+            return Unauthorized("Invalid username or password");
+        }
+
+        return Ok(new { AccessToken, RefreshToken });
+    }
 }
