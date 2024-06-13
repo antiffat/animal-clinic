@@ -125,20 +125,22 @@ public class AnimalClinicContext : DbContext
         
         var passwordHasher = new PasswordHasher<User>();
 
-        var user1 = new User
+        var adminUser = new User
         {
             Id = 1,
-            Username = "testuser1",
-            PasswordHash = passwordHasher.HashPassword(null, "password1")
+            Username = "admin",
+            PasswordHash = passwordHasher.HashPassword(null, "adminpassword"),
+            Roles = "Admin"
         };
 
-        var user2 = new User
+        var regularUser = new User
         {
             Id = 2,
-            Username = "testuser2",
-            PasswordHash = passwordHasher.HashPassword(null, "password2")
+            Username = "testuser",
+            PasswordHash = passwordHasher.HashPassword(null, "password"),
+            Roles = "User"
         };
 
-        modelBuilder.Entity<User>().HasData(user1, user2);
+        modelBuilder.Entity<User>().HasData(adminUser, regularUser);
     }
 }

@@ -15,4 +15,7 @@ public class User
     public string PasswordHash { get; set; }
     
     public string? RefreshToken { get; set; }
+    
+    [Required]
+    public string Roles { get; set; }
 }
