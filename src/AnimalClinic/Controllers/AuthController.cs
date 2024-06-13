@@ -48,4 +48,21 @@ public class AuthController : ControllerBase
 
         return Ok(new { AccessToken, RefreshToken });
     }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] RefreshTokenDto refreshTokenDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var (IsSuccess, AccessToken) = await _userService.RefreshTokenAsync(refreshTokenDto);
+        if (!IsSuccess)
+        {
+            return Unauthorized("Invalid refresh token");
+        }
+        
+        return Ok(new { AccessToken });
+    }
 }
